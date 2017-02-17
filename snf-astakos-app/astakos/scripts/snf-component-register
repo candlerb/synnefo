@@ -38,7 +38,7 @@ register_services () {
 }
 
 ex_ui_url () {
-    echo "$(echo $1 | sed -e 's/\/*$//g')/ui"
+    echo "$(echo $1 | sed -e 's/\/*$//g')/ui/"
 }
 
 changed=0
