@@ -21,6 +21,10 @@ and a single unified Web UI to manage them all.
 If you just want to install the Object Storage Service (Pithos), follow the
 guide and just stop after the "Testing of Pithos" section.
 
+Note: if you plan to use Cyclades and you are installing the OS from scratch,
+it's a good idea either to leave an empty partition of at least 20GB, or to
+install on LVM with volume group named "ganeti" leaving at least 20GB unallocated.
+
 Installation of Synnefo / Introduction
 ======================================
 
@@ -203,7 +207,7 @@ The previous will create a ``ca.crt`` file in the directory
 
    # update-ca-certificates
 
-to update the records. *You will have to do the following on node2 as well*.
+to update the records.
 
 Now you can create the keys and sign them with the certificate:
 
@@ -216,7 +220,12 @@ This will create a ``01.pem`` and a ``node1.example.com.key`` files in the
 ``/etc/ssl/private/`` respectively and use them in the apache2 configuration
 file below instead of the defaults.
 
-.. note:: You will have to do the same on node2 as well.
+Still on node1, also create the certificate and key for node2:
+
+   # ./build-key-server node2.example.com
+
+Copy ``ca.crt``, ``02.pem`` and ``node2.example.com.key`` to node2 in the
+corresponding directories, and run ``update-ca-certificates`` on node2.
 
 Apache2 setup
 ~~~~~~~~~~~~~
@@ -1119,7 +1128,7 @@ the following command:
 
 .. code-block:: console
 
-   # snf-manage oauth2-client-add pithos-view --secret=example_passw0rd --is-trusted --url https://node2.example.com/pithos/ui/view
+   # snf-manage oauth2-client-add pithos-view --secret=secret_passw0rd --is-trusted --url https://node2.example.com/pithos/ui/view
 
 Servers Initialization
 ----------------------
@@ -1263,7 +1272,7 @@ It can be retrieved by running on the Astakos node (node1 in our case):
 
 .. code-block:: console
 
-   # snf-manage component-list
+   # snf-manage component-show pithos
 
 The token has been generated automatically during the :ref:`Pithos service
 registration <services-reg-h>`.
