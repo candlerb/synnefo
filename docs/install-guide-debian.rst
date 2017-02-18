@@ -327,6 +327,8 @@ exchanges:
 We do not need to initialize the exchanges. This will be done automatically,
 during the Cyclades setup.
 
+.. _system-user-group-setup-h:
+
 System user/group setup
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -512,7 +514,7 @@ General Synnefo dependencies
 
 * apache (http server)
 * gunicorn (WSGI http server)
-* postgresql (database)
+* postgresql-client (database)
 * ntp (NTP daemon)
 * gevent
 * certificates
@@ -524,7 +526,7 @@ You can install the above by running:
 
 .. code-block:: console
 
-   # apt-get install apache2 postgresql ntp
+   # apt-get install apache2 postgresql-client ntp
 
 To install gunicorn and gevent, run:
 
@@ -647,6 +649,10 @@ run ``root@node1:~ # update-ca-certificates``.
 
 Installation of Archipelago
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before continuing, make sure you have created the "synnefo" and
+"archipelago" users and groups with common IDs, as described in :ref:`System
+user/group setup <system-user-group-setup-h>`
 
 To install Archipelago, run:
 
@@ -849,7 +855,7 @@ described in more detail later on in this guide. For now, just edit the domain
 to point at node1 which is where we have installed Astakos.
 
 If you are an advanced user and want to use the Shibboleth Authentication
-method, read the relative :ref:`section <shibboleth-auth>`.
+method, read the relevant :ref:`section <shibboleth-auth>`.
 
 .. _email-configuration-h:
 
@@ -1484,7 +1490,8 @@ not familiar with Ganeti.
 
 Ganeti Prerequisites
 --------------------
-You're gonna need the ``lvm2``, ``vlan`` and ``bridge-utils`` packages, so run:
+You're gonna need the ``lvm2``, ``vlan`` and ``bridge-utils`` packages, so on
+all ganeti nodes run:
 
 .. code-block:: console
 
